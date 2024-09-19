@@ -5,15 +5,15 @@ import 'echarts-gl';
 import * as echarts from 'echarts';
 
 @Component({
-  selector: 'app-chart',
+  selector: 'app-chart-thickness',
   standalone: true,
   imports: [],
-  templateUrl: './chart.component.component.html',
-  styleUrl: './chart.component.component.css'
+  templateUrl: './chart.thickness.component.html',
+  styleUrl: './chart.thickness.component.css'
 })
-export class ChartComponentComponent implements OnInit{
+export class ChartThicknessComponent implements OnInit{
   //Arrays für die Daten aus der CSV-Datei anlegen
-  reflectivityData!: any[];
+  thicknessData!: any[];
 
   options: any;
   
@@ -21,23 +21,23 @@ export class ChartComponentComponent implements OnInit{
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    //Reflectivity Daten aus dem Backend empfangen 
-    this.dataService.getReflectivityData().subscribe(data => {
-      console.log('Reflectivity-Daten erfolgreich empfangen: ', data);
-      this.reflectivityData = data;
-    },error => {
-      console.error('Fehler beim empfangen  der Reflectivity Daten: ', error);
+    //Thickness Daten aus dem Backend empfangen
+    this.dataService.getThicknessData().subscribe(data => {
+      console.log('Thickness-Daten erfolgreich empfangen: ', data);
+      this.thicknessData =  data;
+    }, error => {
+      console.error('Fehler beim Empfangen der Thickness-Daten: ', error);
     });
 
     //Minimal und Maximalwerte dynamisch anpassen
-    let minX = this.reflectivityData[0][0];
-    let manX = this.reflectivityData[0][0];
-    let minY = this.reflectivityData[0][1];
-    let manY = this.reflectivityData[0][1];
-    let minZ = this.reflectivityData[0][2];
-    let manZ = this.reflectivityData[0][2];
+    let minX = this.thicknessData[0][0];
+    let manX = this.thicknessData[0][0];
+    let minY = this.thicknessData[0][1];
+    let manY = this.thicknessData[0][1];
+    let minZ = this.thicknessData[0][2];
+    let manZ = this.thicknessData[0][2];
 
-    Object.values(this.reflectivityData).forEach(value => {
+    Object.values(this.thicknessData).forEach(value => {
       const x = value[0];
       const y = value[1];
       const z = value[2];
@@ -48,10 +48,11 @@ export class ChartComponentComponent implements OnInit{
       manX = Math.max(manX, x);
       manY = Math.max(manY, y);
       manZ = Math.max(manZ, z);
+      console.log(minZ);
     })
 
     //Chart-Element Anlegen
-    const chartElement = document.getElementById('reflectivity');
+    const chartElement = document.getElementById('thickness');
     const chart = echarts.init(chartElement);
 
     //Reflectivity Chart konfigurieren
@@ -61,7 +62,7 @@ export class ChartComponentComponent implements OnInit{
       visualMap: {
         show: true,
         dimension: 2,
-        min: 1.003,
+        min: 1.027,
         max: manZ,
         inRange: {
           color: [
@@ -91,7 +92,7 @@ export class ChartComponentComponent implements OnInit{
       },
       zAxis3D: {
         type: 'value',
-        min: 1.003,
+        min: 1.027,
         max: manZ
       },
       grid3D: {
@@ -101,13 +102,13 @@ export class ChartComponentComponent implements OnInit{
       },
       legend: {
         display: true,
-        data: ['ReflectivityPointwise']
+        data: ['thicknessPointwise']
       },
       series: [
         {
           name:'thicknessPointwise',
           type:'scatter3D',
-          data: this.reflectivityData
+          data: this.thicknessData
         }
       ]
     };
