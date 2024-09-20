@@ -101,11 +101,11 @@ export class ChartComponentComponent implements OnInit{
       },
       legend: {
         display: true,
-        data: ['ReflectivityPointwise']
+        data: ['reflectivityPointwise']
       },
       series: [
         {
-          name:'thicknessPointwise',
+          name:'reflectivityPointwise',
           type:'scatter3D',
           data: this.reflectivityData
         }
