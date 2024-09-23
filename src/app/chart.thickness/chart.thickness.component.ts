@@ -57,7 +57,7 @@ export class ChartThicknessComponent implements OnInit{
 
     //Reflectivity Chart konfigurieren
     this.options = {
-      tooltip: {},
+      tooltip: { },
       backgroundColor: '#fff',
       visualMap: {
         show: true,
@@ -91,6 +91,7 @@ export class ChartThicknessComponent implements OnInit{
         max: manY
       },
       zAxis3D: {
+        name: 'cFactorCorr',
         type: 'value',
         min: 1.027,
         max: manZ
@@ -102,13 +103,13 @@ export class ChartThicknessComponent implements OnInit{
       },
       legend: {
         display: true,
-        data: ['thicknessPointwise']
+        data: ['thicknessPointwise'],
       },
       series: [
         {
           name:'thicknessPointwise',
           type:'scatter3D',
-          data: this.thicknessData
+          data: this.thicknessData,
         }
       ]
     };

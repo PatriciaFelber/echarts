@@ -90,6 +90,7 @@ export class ChartComponentComponent implements OnInit{
         max: manY
       },
       zAxis3D: {
+        name: 'r80Corr',
         type: 'value',
         min: 1.003,
         max: manZ
